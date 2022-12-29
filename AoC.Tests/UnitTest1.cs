@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AdventOfCode;
 using NUnit.Framework;
 
@@ -43,6 +44,42 @@ namespace AoC.Tests
 
             var result = Day02.WhatDoIThrow(opponent, desired);
             Assert.AreEqual(needToThrow, result);
+        }
+
+        [TestCase("2-4,6-8", false)]
+        [TestCase("2-3,4-5", false)]
+        [TestCase("5-7,7-9", false)]
+        [TestCase("2-8,3-7", true)]
+        [TestCase("6-6,4-6", true)]
+        [TestCase("2-6,4-8", false)]
+        public void Day4_Part1_ContainsRange(string input, bool outcome)
+        {
+            var splits = input.Split(',');
+            var r1 = new Range(splits[0]);
+            var r2 = new Range(splits[1]);
+
+            var result = r1.ContainsRange(r2);
+            var result2 = r2.ContainsRange(r1);
+
+            Assert.AreEqual(outcome, result || result2);
+        }
+
+        [TestCase("2-4,6-8", false)]
+        [TestCase("2-3,4-5", false)]
+        [TestCase("5-7,7-9", true)]
+        [TestCase("2-8,3-7", true)]
+        [TestCase("6-6,4-6", true)]
+        [TestCase("2-6,4-8", true)]
+        public void Day4_Part1_Overlaps(string input, bool outcome)
+        {
+            var splits = input.Split(',');
+            var r1 = new Range(splits[0]);
+            var r2 = new Range(splits[1]);
+
+            var result = r1.Overlaps(r2);
+            var result2 = r2.Overlaps(r1);
+
+            Assert.AreEqual(outcome, result || result2);
         }
     }
 }
